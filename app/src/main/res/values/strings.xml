@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">CavFar</string>
+    <string-array name="Cars">
+        <item>Marcas</item>
+        <item>Bmw</item>
+        <item>Audi</item>
+        <item>Mercedes</item>
+        <item>Volkswagen</item>
+        <item>Seat</item>
+        <item>Jeep</item>
+    </string-array>
+    <string-array name="Models">
+        <item>Models</item>
+        <item>Bmw</item>
+        <item>Audi</item>
+        <item>Mercedes</item>
+        <item>Volkswagen</item>
+        <item>Seat</item>
+        <item>Jeep</item>
+    </string-array>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+</resources>
