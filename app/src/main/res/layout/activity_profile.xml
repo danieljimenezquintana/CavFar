@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:paddingLeft="170dp"
         android:paddingTop="20dp"
-        android:text="Profile"
+        android:text="Perfil"
         android:textSize="20dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

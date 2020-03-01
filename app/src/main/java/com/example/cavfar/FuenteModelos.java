@@ -1,15 +1,17 @@
 package com.example.cavfar;
 
-public class FuenteModelos {
+import java.io.Serializable;
+
+public class FuenteModelos implements Serializable {
 
     String title;
     String description;
-    int imagen;
+    String brandName;
 
-    public FuenteModelos(String title, String description, int imagen) {
+    public FuenteModelos(String title, String description,String brandName) {
         this.title = title;
         this.description = description;
-        this.imagen = imagen;
+        this.brandName = brandName;
     }
 
     public String getTitle() {
@@ -20,7 +22,7 @@ public class FuenteModelos {
         return description;
     }
 
-    public int getImagen() {
-        return imagen;
+    public String getBrandName() {
+        return brandName;
     }
 }

@@ -3,6 +3,7 @@ package com.example.cavfar.Interfaz;
 import com.example.cavfar.FuenteModelos;
 import com.example.cavfar.Users.loginResponse;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.ResponseBody;
@@ -39,9 +40,15 @@ public interface Api {
     //Obtener modelos por marcas --> brand_id = 0 (todas)
     @GET("models/{brand_id}")
     @Headers("Accept: application/json")
-    Call<List<FuenteModelos>> showModels(
+    Call<ArrayList<FuenteModelos>> showModels(
             @Header("Authorization") String token,
             @Path("brand_id") int brand_id
+    );
+
+    @GET("models")
+    @Headers("Accept: application/json")
+    Call<List<FuenteModelos>> showAllModels(
+            @Header("Authorization") String token
     );
 
     //Añadir a favoritos
@@ -52,14 +59,13 @@ public interface Api {
             @Header("Authorization") String token,
             @Field("model_id") String model_id
     );
-    //Borrar de favoritos
-    @FormUrlEncoded
-    @POST("delete-favorite")
+
+    @GET("favorites")
     @Headers("Accept: application/json")
-    Call<ResponseBody> deleteFav(
-            @Header("Authorization") String token,
-            @Field("model_id") String model_id
+    Call<List<FuenteModelos>> getFavorites(
+            @Header("Authorization") String token
     );
+
     //Editar usuario
     @FormUrlEncoded
     @POST("edit-user")

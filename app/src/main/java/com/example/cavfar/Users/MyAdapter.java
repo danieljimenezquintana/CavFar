@@ -1,6 +1,7 @@
 package com.example.cavfar.Users;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,13 +11,14 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.cavfar.FuenteModelos;
 import com.example.cavfar.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
-    List<String> mDataset;
+    List<FuenteModelos> mDataset;
     Context contexto;
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
@@ -29,9 +31,13 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         }
     }
 
-    public MyAdapter(List<String> myDataset, Context context) {
+    public MyAdapter(List<FuenteModelos> myDataset, Context context) {
         this.contexto = context;
         this.mDataset = myDataset;
+    }
+
+    public void setmDataset(List<FuenteModelos> data) {
+        this.mDataset = data;
     }
 
     @Override
@@ -45,7 +51,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(final MyViewHolder holder, int position) {
-        holder.tituloModelo.setText(mDataset.get(position));
+        holder.tituloModelo.setText(mDataset.get(position).getTitle());
+
+        Log.i("hola",mDataset.get(position).getTitle());
 
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,6 +66,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     }
     @Override
     public int getItemCount() {
-        return mDataset.size();
+            return mDataset.size();
     }
 }

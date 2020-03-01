@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -31,6 +32,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.Request;
+import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -44,16 +46,23 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     ImageView favorite;
     //String[] array;
 
-    private ArrayList<String> lista ;
+    private List<FuenteModelos> lista ;
 
     private RecyclerView recyclerView;
-    private RecyclerView.Adapter mAdapter;
+    private MyAdapter mAdapter;
     private RecyclerView.LayoutManager layoutManager;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        showAllModels();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        showAllModels();
         /*--------------------- SPINNER ---------------------*/
         Spinner spinner = (Spinner) findViewById(R.id.spinnerMarcas);
 
@@ -68,22 +77,16 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
         options = MainActivity.this.getResources().getStringArray(R.array.Cars);
 
         /*--------------------- RECYCLER VIEW ---------------------*/
-        lista = new ArrayList<String>()
-        {{
-            add("BMW" ) ;
-            add("Citroen") ;
-
-        }} ;
-        //lista = showModels();
+        lista = new ArrayList();
         recyclerView = (RecyclerView) findViewById(R.id.contenedorModelos);
 
-        recyclerView.setHasFixedSize(true);
+        //recyclerView.setHasFixedSize(true);
 
-        layoutManager = new LinearLayoutManager(this);
+        layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
 
         //array = MainActivity.this.getResources().getStringArray(R.array.Models);
-        mAdapter = new MyAdapter(lista,this);
+        mAdapter = new MyAdapter(lista,getApplicationContext());
         recyclerView.setAdapter(mAdapter);
 
     }
@@ -141,51 +144,26 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
                 finish() ;
                 break;
             case R.id.registroInvi:
-                Intent intent4= new Intent (MainActivity.this, LoginRegister.class);
+                Intent intent4= new Intent (MainActivity.this, LoginActivity.class);
                 startActivity(intent4);
                 break;
         }
         return super.onOptionsItemSelected(item);
     }
-    /*public void showModels(Integer i){
+    public void showAllModels(){
+        Call<List<FuenteModelos>> call = RetrofitClient.getInstance().getApi().showAllModels("Bearer " + SharedPrefManager.getInstance(getApplicationContext()).getUser().getToken());
 
-        Call<List<FuenteModelos>> call = RetrofitClient.getInstance().getApi().showModels("Bearer " + SharedPrefManager.getInstance(getApplicationContext()).getUser().getToken(),i);
-
-        call.enqueue(new Call<List<FuenteModelos>>() {
+        call.enqueue(new Callback<List<FuenteModelos>>() {
             @Override
-            public Response<FuenteModelos> execute() throws IOException {
-                return null;
+            public void onResponse(Call<List<FuenteModelos>> call, Response<List<FuenteModelos>> response) {
+                lista = response.body();
+                mAdapter.setmDataset(lista);
             }
 
             @Override
-            public void enqueue(Callback<List<FuenteModelos>>callback) {
-
+            public void onFailure(Call<List<FuenteModelos>> call, Throwable t) {
+                Toast.makeText(MainActivity.this,"Hay un problema con el servidor.",Toast.LENGTH_LONG).show();
             }
-
-            @Override
-            public boolean isExecuted() {
-                return false;
-            }
-
-            @Override
-            public void cancel() {
-
-            }
-
-            @Override
-            public boolean isCanceled() {
-                return false;
-            }
-
-            @Override
-            public Call<List<FuenteModelos>> clone() {
-                return null;
-            }
-
-            @Override
-            public Request request() {
-                return null;
-            }
-            });
-    }*/
+        });
+    }
 }

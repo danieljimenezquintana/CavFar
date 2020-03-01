@@ -75,10 +75,8 @@ public class Profile extends AppCompatActivity {
         call.enqueue(new Callback<loginResponse>() {
             @Override
             public void onResponse(Call<loginResponse> call, Response<loginResponse> response) {
-                Toast.makeText(Profile.this,response.toString(),Toast.LENGTH_LONG).show();
                 if (response.body() != null) {
                     SharedPrefManager.getInstance(Profile.this).saveUser(response.body());
-                    Toast.makeText(Profile.this,"Okey",Toast.LENGTH_LONG).show();
                 }
             }
 
