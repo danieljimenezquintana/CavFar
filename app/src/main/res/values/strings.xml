@@ -4,10 +4,7 @@
         <item>Marcas</item>
         <item>Bmw</item>
         <item>Audi</item>
-        <item>Mercedes</item>
         <item>Volkswagen</item>
-        <item>Seat</item>
-        <item>Jeep</item>
     </string-array>
     <string-array name="Models">
         <item>Models</item>

@@ -8,18 +8,27 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.cavfar.FuenteModelos;
+import com.example.cavfar.Interfaz.RetrofitClient;
+import com.example.cavfar.Interfaz.SharedPrefManager;
+import com.example.cavfar.MainActivity;
 import com.example.cavfar.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     List<FuenteModelos> mDataset;
     Context contexto;
+
     public static class MyViewHolder extends RecyclerView.ViewHolder {
 
         TextView tituloModelo;
@@ -58,7 +67,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.favorite.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Función añadir a favoritos
                 holder.favorite.setImageDrawable(contexto.getDrawable(R.drawable.heart2));
             }
             //Condición para rellenar o no el corazón (BBDD)

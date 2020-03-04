@@ -21,17 +21,13 @@ import android.widget.Toast;
 import com.example.cavfar.Interfaz.RetrofitClient;
 import com.example.cavfar.Interfaz.SharedPrefManager;
 import com.example.cavfar.Menu.Favorites;
-import com.example.cavfar.Menu.LoginRegister;
 import com.example.cavfar.Menu.Profile;
 import com.example.cavfar.Users.LoginActivity;
 import com.example.cavfar.Users.MyAdapter;
-import com.example.cavfar.Users.loginResponse;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import okhttp3.Request;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -94,8 +90,15 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
 
-        Toast.makeText(this, " You select --> "+options[position], Toast.LENGTH_SHORT).show();
-
+        Toast.makeText(this, " You select --> " + options[position], Toast.LENGTH_SHORT).show();
+        if (options[position] == "BMW"){
+            showModel(1);
+        }
+        else if(options[position] == "Audi"){
+            showModel(2);
+        }else {
+            showModel(3);
+        }
     }
 
     @Override
@@ -158,11 +161,46 @@ public class MainActivity extends AppCompatActivity implements AdapterView.OnIte
             public void onResponse(Call<List<FuenteModelos>> call, Response<List<FuenteModelos>> response) {
                 lista = response.body();
                 mAdapter.setmDataset(lista);
+                Log.i("Error",response.body().toString());
             }
-
             @Override
             public void onFailure(Call<List<FuenteModelos>> call, Throwable t) {
                 Toast.makeText(MainActivity.this,"Hay un problema con el servidor.",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void showModel(Integer id){
+        Call<List<FuenteModelos>> call = RetrofitClient.getInstance().getApi().showModels("Bearer " + SharedPrefManager.getInstance(getApplicationContext()).getUser().getToken(),id);
+
+        call.enqueue(new Callback<List<FuenteModelos>>() {
+            @Override
+            public void onResponse(Call<List<FuenteModelos>> call, Response<List<FuenteModelos>> response) {
+                if (response.body() != null) {
+                    lista = response.body();
+                    mAdapter.setmDataset(lista);
+                    Log.i("Error",response.body().toString());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<FuenteModelos>> call, Throwable t) {
+                Toast.makeText(MainActivity.this,"Error al conectar con el servidor.",Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+    public void addFav(String id){
+        Call<ResponseBody> call = RetrofitClient.getInstance().getApi().addFav("Bearer " + SharedPrefManager.getInstance(getApplicationContext()).getUser().getToken(),id);
+
+        call.enqueue(new Callback<ResponseBody>() {
+            @Override
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+                if (response.body() != null) {
+                    Log.i("Error","Ha sido añadido a favoritos correctamente");
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResponseBody> call, Throwable t) {
+                Log.i("Error","No se ha podido agregar a favoritos.");
             }
         });
     }

@@ -40,7 +40,7 @@ public interface Api {
     //Obtener modelos por marcas --> brand_id = 0 (todas)
     @GET("models/{brand_id}")
     @Headers("Accept: application/json")
-    Call<ArrayList<FuenteModelos>> showModels(
+    Call<List<FuenteModelos>> showModels(
             @Header("Authorization") String token,
             @Path("brand_id") int brand_id
     );
