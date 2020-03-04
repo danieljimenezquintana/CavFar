@@ -1,4 +1,4 @@
 #CavFar
 
 Pantalla de Login
-<img src="Imagenes/Login.png">
+<img src="Imagenes/Login.PNG">
